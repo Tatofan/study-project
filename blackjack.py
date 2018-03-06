@@ -7,15 +7,15 @@ class Card:
     def card_value(self):
         if self.rank in "TJQK":
             return 10
+        elif self.rank in "A":  #переделали значение туза
+            return 11
         else:
-          return " A23456789".index(self.rank)
+            return "  23456789".index(self.rank)
       
     def get_rank(self):
         return self.rank
     def __str__(self):
         return "%s%s"%(self.rank,self.suit)
-    
-    
     
 class Hand:
     def __init__(self,name):
@@ -24,26 +24,24 @@ class Hand:
         
     def add_card(self,card):
         self.cards.append(card)
-        
-        
+          
     def get_value(self):
         result=0
         aces=0
         for card in self.cards:
             result +=card.card_value()
-            if card.get_rank()=="A":
-                aces +=11
+            #if card.get_rank()=="A": \\сдесь значение туза не изменяется,
+                #aces += 11            h\\ не знаю почему.
         if result + aces*10 <=21:
                 result +=aces*10
         return result
         
     def __str__(self):
-        text = "%s's contains:\n" %self.name
+        text = "%s's contains:\n " %self.name
         for card in self.cards:
-            text +=str(card)+""
+            text +=str(card)+" "
         text +="\nHand value: "+str(self.get_value())
         return text
-    
     
 class Deck:
     def __init__(self):
@@ -55,7 +53,7 @@ class Deck:
     def deal_card(self):
         return self.cards.pop()
     def new_game():
-        d=Deck()
+        d = Deck()
         player_hand = Hand("Player")
         dealer_hand = Hand("Dealer")
         player_hand.add_card(d.deal_card())
@@ -73,7 +71,7 @@ class Deck:
             if player_hand.get_value()>21:
                 print("You lose")
                 in_game = False
-            else:
+            elif ans == "s":
                 print("You stand")
                 break
         print("="*20)
